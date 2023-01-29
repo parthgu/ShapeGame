@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Parth Gupta MP2</title>
+  <!-- external library -->
+  <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
+  <!-- Client game code -->
+  <script type="module" src="./src/my_game/my_game.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="new MyGame('GLCanvas');">
+  <canvas id="GLCanvas" width="640" height="480">
+    <!-- GLCanvas is the area we will draw in: a 640x480 area. --> Your browser does not support the HTML5 canvas.
+    <!-- this message will show only if WebGL clearing failed -->
+  </canvas>
+  <br>
+  <div id='UpdateFrame'></div>
+  <div id="shape-selections">
+
+    <div id="square-box">
+      <input type="radio" name="shapeType" id="square-option" checked="true">
+      <label for="sqaure-option" id="square-option-label">Square</label>
+    </div>
+
+    <div id="triangle-box">
+      <input type="radio" name="shapeType" id="triangle-option">
+      <label for="triangle-option" id="triangle-option-label">Triangle</label>
+    </div>
+    
+    <div id="circle-box">
+      <input type="radio" name="shapeType" id="circle-option">
+      <label for="circle-option" id="circle-option-label">Circle</label>
+    </div>
+
+    <div id="star-box">
+      <input type="radio" name="shapeType" id="star-option">
+      <label for="star-option" id="star-option-label">Star</label>
+    </div>
+  </div>
+  <hr>
+  <div id="instructions">
+    <div id="delete-key-instructions">Press 'D' to enter <i>Delete Mode</i></div>
+    <div id="random-key-instructions">Press 'R' to enter <i>Random Movement Mode</i></div>
+    <div id="random-key-instructions">Press 'G' to enter <i>Gravity Mode</i></div>
+  </div>
+  <div id='total-objects'></div>
+  <div id='delete-mode'></div>
+  <div id='random-mode'></div>
+  <div id='gravity-mode'></div>
+  
+  <script>
+    let mMaxUpdatePerDraw = 0; // These are global variables: initialized once per page
+    let mAvgUpdate = 0;
+    let mMaxLagTime = 0;
+    let mAvgLag = 0;
+    function gUpdateFrame(elapsed, numUpdatePerDraw, lagTime) {
+      if(lagTime < 10) {
+        lagTime = lagTime.toFixed(2) +  "&nbsp;";
+      }
+      else{
+        lagTime = lagTime.toFixed(2);
+      }
+      let elm = document.getElementById("UpdateFrame"); elm.innerHTML =
+      "<b>Time to update/draw:</b>" + elapsed.toFixed(2) + " milli-seconds<br>" + 
+      "<b>Frames per second: </b>" + (1000 / elapsed).toFixed(2) + "<br>" + 
+      "<b>Update() Calls per Draw(): </b>" + numUpdatePerDraw +
+      " <b>Max</b>=" + mMaxUpdatePerDraw +
+      " <b>Avg</b>=" + mAvgUpdate.toFixed(5) + "<br>" + 
+      " <b>Lag Time: </b>" + lagTime +
+      " <b>Max</b>=" + mMaxLagTime.toFixed(2) +
+      " <b>Avg</b>=" + mAvgLag.toFixed(5) + " milli-seconds <br> ";            
+    }
+    function gUpdateObject(n, deleteMode, randomMovementMode, gravityMode) {
+      let totalObjectDiv = document.getElementById("total-objects"); 
+      let deleteModeDiv = document.getElementById("delete-mode");
+      let randomModeDiv = document.getElementById("random-mode");
+      let gravityModeDiv = document.getElementById("gravity-mode");
+      totalObjectDiv.innerHTML = "<b>Total num objects:&nbsp</b>" + n;
+      deleteModeDiv.innerHTML = "<b>Delete mode=&nbsp</b>" + deleteMode;
+      randomModeDiv.innerHTML = "<b>Random Movement Mode=&nbsp</b>" + randomMovementMode;
+      gravityModeDiv.innerHTML = "<b>Gravity Mode=&nbsp</b>" + gravityMode;
+      
+    }      
+  </script>
+</body>
+
+</html>
